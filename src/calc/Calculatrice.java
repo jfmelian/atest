@@ -1,4 +1,5 @@
 package calc;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class Calculatrice {
             return result;
         }
     }
+
     static class MoinsOperator extends ArithOperator {
 
         MoinsOperator(List<Integer> p) {
@@ -48,6 +50,7 @@ public class Calculatrice {
             return result;
         }
     }
+
     static class MultOperator extends ArithOperator {
 
         MultOperator(List<Integer> p) {
@@ -63,6 +66,7 @@ public class Calculatrice {
             return result;
         }
     }
+
     static class DivOperator extends ArithOperator {
 
         DivOperator(List<Integer> p) {
@@ -71,7 +75,7 @@ public class Calculatrice {
 
         @Override
         Integer exec() {
-            Integer result=0;
+            Integer result = 0;
             if (!operands.isEmpty())
                 result = operands.remove();
             while (!operands.isEmpty()) {
@@ -81,9 +85,45 @@ public class Calculatrice {
         }
     }
 
-    public Calculatrice() {
+    static class MaxOperator extends ArithOperator {
+
+        MaxOperator(List<Integer> p) {
+            super(p);
+        }
+
+        @Override
+        Integer exec() {
+            Integer result = 0;
+            if (!operands.isEmpty())
+                result = operands.remove();
+            while (!operands.isEmpty()) {
+                int op = operands.remove();
+                result = result > op ? result : op;
+            }
+            return result;
+        }
+    }
+    static class MinOperator extends ArithOperator {
+
+        MinOperator(List<Integer> p) {
+            super(p);
+        }
+
+        @Override
+        Integer exec() {
+            Integer result = 0;
+            if (!operands.isEmpty())
+                result = operands.remove();
+            while (!operands.isEmpty()) {
+                int op = operands.remove();
+                result = result > op ? op : result;
+            }
+            return result;
+        }
     }
 
+    public Calculatrice() {
+    }
 
     /**
      * @param args
@@ -122,6 +162,10 @@ public class Calculatrice {
             arithOperator = new DivOperator(operands);
         } else if ("m".equalsIgnoreCase(op)) {
             arithOperator = new MultOperator(operands);
+        } else if ("max".equalsIgnoreCase(op)) {
+            arithOperator = new MaxOperator(operands);
+        } else if ("min".equalsIgnoreCase(op)) {
+            arithOperator = new MinOperator(operands);
         }
 
         return arithOperator;
