@@ -63,6 +63,23 @@ public class Calculatrice {
             return result;
         }
     }
+    static class DivOperator extends ArithOperator {
+
+        DivOperator(List<Integer> p) {
+            super(p);
+        }
+
+        @Override
+        Integer exec() {
+            Integer result=0;
+            if (!operands.isEmpty())
+                result = operands.remove();
+            while (!operands.isEmpty()) {
+                result /= operands.remove();
+            }
+            return result;
+        }
+    }
 
     public Calculatrice() {
     }
@@ -97,13 +114,13 @@ public class Calculatrice {
 
             }
 
-        if ("a".equals(op)) {
+        if ("a".equalsIgnoreCase(op)) {
             arithOperator = new PlusOperator(operands);
-        } else if ("s".equals(op)) {
+        } else if ("s".equalsIgnoreCase(op)) {
             arithOperator = new MoinsOperator(operands);
-        } else if ("d".equals(op)) {
-            // TODO
-        } else if ("m".equals(op)) {
+        } else if ("d".equalsIgnoreCase(op)) {
+            arithOperator = new DivOperator(operands);
+        } else if ("m".equalsIgnoreCase(op)) {
             arithOperator = new MultOperator(operands);
         }
 
