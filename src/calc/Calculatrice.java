@@ -48,6 +48,21 @@ public class Calculatrice {
             return result;
         }
     }
+    static class MultOperator extends ArithOperator {
+
+        MultOperator(List<Integer> p) {
+            super(p);
+        }
+
+        @Override
+        Integer exec() {
+            Integer result = 1;
+            while (!operands.isEmpty()) {
+                result *= operands.remove();
+            }
+            return result;
+        }
+    }
 
     public Calculatrice() {
     }
@@ -82,14 +97,14 @@ public class Calculatrice {
 
             }
 
-        if ("+".equals(op)) {
+        if ("a".equals(op)) {
             arithOperator = new PlusOperator(operands);
-        } else if ("-".equals(op)) {
+        } else if ("s".equals(op)) {
             arithOperator = new MoinsOperator(operands);
-        } else if ("/".equals(op)) {
+        } else if ("d".equals(op)) {
             // TODO
-        } else if ("*".equals(op)) {
-            // TODO
+        } else if ("m".equals(op)) {
+            arithOperator = new MultOperator(operands);
         }
 
         return arithOperator;
