@@ -1,0 +1,1 @@
+Petit test d'une calculatrice très simple en ligne de commande
