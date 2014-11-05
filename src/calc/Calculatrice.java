@@ -1,21 +1,24 @@
 package calc;
-import java.util.Stack;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 public class Calculatrice {
 
     abstract static class ArithOperator {
-        Stack<Integer> operands = new Stack<Integer>();
+        Queue<Integer> operands = new LinkedList<Integer>();
 
         abstract Integer exec();
 
-        ArithOperator(Stack<Integer> p) {
+        ArithOperator(List<Integer> p) {
             operands.addAll(p);
         }
     }
 
     static class PlusOperator extends ArithOperator {
 
-        PlusOperator(Stack<Integer> p) {
+        PlusOperator(List<Integer> p) {
             super(p);
         }
 
@@ -23,7 +26,24 @@ public class Calculatrice {
         Integer exec() {
             Integer result = 0;
             while (!operands.isEmpty()) {
-                result += operands.pop();
+                result += operands.remove();
+            }
+            return result;
+        }
+    }
+    static class MoinsOperator extends ArithOperator {
+
+        MoinsOperator(List<Integer> p) {
+            super(p);
+        }
+
+        @Override
+        Integer exec() {
+            Integer result = 0;
+            if (!operands.isEmpty())
+                result = operands.remove();
+            while (!operands.isEmpty()) {
+                result -= operands.remove();
             }
             return result;
         }
@@ -53,11 +73,11 @@ public class Calculatrice {
 
         ArithOperator arithOperator = null;
         String op = args[0];
-        Stack<Integer> operands = new Stack<Integer>();
+        List<Integer> operands = new ArrayList<Integer>();
 
         for (int ii = 1; ii < args.length; ii++)
             try {
-                operands.push(Integer.parseInt(args[ii]));
+                operands.add(Integer.parseInt(args[ii]));
             } catch (NumberFormatException e) {
 
             }
@@ -65,7 +85,7 @@ public class Calculatrice {
         if ("+".equals(op)) {
             arithOperator = new PlusOperator(operands);
         } else if ("-".equals(op)) {
-            // TODO
+            arithOperator = new MoinsOperator(operands);
         } else if ("/".equals(op)) {
             // TODO
         } else if ("*".equals(op)) {
